@@ -2,6 +2,8 @@ package cz.fei.upce.cv05.evidence.chatek;
 
 import java.util.Scanner;
 
+import java.util.stream.*;
+
 public class EvidenceChatekApp {
 
     public static void main(String[] args) {
@@ -14,8 +16,8 @@ public class EvidenceChatekApp {
         final int CELKOVA_OBSAZENOST = 5;
         final int VYPIS_PRAZDNE_CHATKY = 6;
 
-        final int VELIKOST_KEMPU = 5;
-        final int MAX_VELIKOST_CHATKY = 10;
+        final int VELIKOST_KEMPU = 10;
+        final int MAX_VELIKOST_CHATKY = 5;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -99,25 +101,51 @@ public class EvidenceChatekApp {
                 }
 
                 case ODEBRANI_NAVSTEVNIKU -> {
-                    // TODO
+                    System.out.print("Zadej cislo chatky: ");
+                    int cisloChatky = scanner.nextInt() - 1;
+                    if (cisloChatky < 0 || cisloChatky >= chatky.length) {
+                        System.err.println("Tato chatka neexistuje");
+                    }    
+                    System.out.print("Zadej pocet navstevniku: ");
+                    int pocetNavstevniku = - scanner.nextInt();
+                    
+                    if (pocetNavstevniku >= 0 || (pocetNavstevniku + chatky[cisloChatky]) < 0 ) {
+                        System.err.println("Neplatna hodnota pro pocet navstevniku");
+                        continue; }
+                    chatky[cisloChatky] =  pocetNavstevniku + chatky[cisloChatky];
                 }
-
+                
                 case CELKOVA_OBSAZENOST -> {
-                    // TODO
+                     
+                     int sum = IntStream.of(chatky).sum();
+                     System.out.println("Celkova obsazenost: " + sum);
                 }
-
-                case VYPIS_PRAZDNE_CHATKY -> {
-                    // TODO
-                }
-
+                
+                
+                
+                case VYPIS_PRAZDNE_CHATKY -> {                 
+                    
+                    
+                    for (int i = 0; i < chatky.length; i++){
+                    if ( chatky[i] <= 0) {
+                    System.out.println("Chatka [" + (i + 1) + "]");
+                    }
+                    
+                    }
+                    
+                }    
+               
+        
+               
+           
                 case KONEC_PROGRAMU -> {
                     System.out.println("Konec programu");
                 }
 
                 default -> {
                     System.err.println("Neplatna volba");
-                }
-            }
+            }    
+        }      
         } while (operace != 0);
-    }
-}
+        } 
+} 
